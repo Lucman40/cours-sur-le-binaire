@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprendre les Bits et Octets</title>
+    
+    <!-- Importation des CDN nécessaires -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <style>
+        /* Styles personnalisés */
+        .bit-button {
+            width: 48px;
+            height: 48px;
+            margin: 4px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .bit-0 {
+            background-color: #BFDBFE;
+            color: #1E3A8A;
+        }
+        
+        .bit-1 {
+            background-color: #EF4444;
+            color: white;
+        }
+
+        .section-card {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .blue-section {
+            background-color: #EFF6FF;
+        }
+
+        .green-section {
+            background-color: #F0FDF4;
+        }
+
+        .orange-section {
+            background-color: #FFF7ED;
+        }
+
+        .character-example {
+            padding: 0.5rem;
+            margin: 0.25rem;
+            border-radius: 0.5rem;
+            background-color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .character-example:hover {
+            background-color: #F3F4F6;
+        }
+
+        .file-example {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const BinaryTeacher = () => {
+            const [bits, setBits] = React.useState([0, 1, 0, 0, 0, 0, 0, 1]);
+
+            const commonCharacters = [
+                { char: 'A', binary: [0, 1, 0, 0, 0, 0, 0, 1], description: "La lettre A" },
+                { char: 'B', binary: [0, 1, 0, 0, 0, 0, 1, 0], description: "La lettre B" },
+                { char: '!', binary: [0, 0, 1, 0, 0, 0, 0, 1], description: "Point d'exclamation" },
+                { char: '1', binary: [0, 0, 1, 1, 0, 0, 0, 1], description: "Le chiffre 1" },
+                { char: '@', binary: [0, 1, 0, 0, 0, 0, 0, 0], description: "Le symbole @" },
+                { char: '♥', binary: [0, 0, 1, 1, 0, 0, 1, 1], description: "Un cœur" },
+            ];
+
+            const fileExamples = [
+                { name: "SMS (100 caractères)", size: "100 octets", realLife: "comme une petite note" },
+                { name: "Photo de vacances", size: "3 Mo (3 000 000 octets)", realLife: "comme un album photo" },
+                { name: "Chanson MP3", size: "5 Mo (5 000 000 octets)", realLife: "comme un carnet de chansons" },
+                { name: "Vidéo HD (1 minute)", size: "100 Mo (100 000 000 octets)", realLife: "comme un petit film" },
+                { name: "Film HD (2 heures)", size: "4 Go (4 000 000 000 octets)", realLife: "comme une bibliothèque de photos" },
+                { name: "Jeu vidéo moderne", size: "1 To (1 000 000 000 000 octets)", realLife: "comme une bibliothèque entière de films" }
+            ];
+
+            const toggleBit = (index) => {
+                const newBits = [...bits];
+                newBits[index] = newBits[index] === 0 ? 1 : 0;
+                setBits(newBits);
+            };
+
+            const setBitsFromCharacter = (binary) => {
+                setBits([...binary]);
+            };
+
+            return (
+                <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
+                    <h1 className="text-2xl font-bold mb-6">Les Bits et les Octets : Simple comme des interrupteurs !</h1>
+                    
+                    {/* Section Bit */}
+                    <div className="section-card blue-section">
+                        <h2 className="text-xl font-bold mb-3">Le BIT : l'interrupteur de l'ordinateur</h2>
+                        <p className="mb-4">Un bit, c'est comme un interrupteur qui peut être :</p>
+                        <div className="flex gap-4">
+                            <div className="flex items-center gap-2 bg-white p-2 rounded">
+                                <div className="bit-button bit-0">0</div>
+                                <div>
+                                    <p className="font-bold">Éteint (0)</p>
+                                    <p className="text-sm text-gray-600">comme une lampe éteinte</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2 bg-white p-2 rounded">
+                                <div className="bit-button bit-1">1</div>
+                                <div>
+                                    <p className="font-bold">Allumé (1)</p>
+                                    <p className="text-sm text-gray-600">comme une lampe allumée</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Section Octet */}
+                    <div className="section-card green-section">
+                        <h2 className="text-xl font-bold mb-3">L'Octet : l'unité de mesure des fichiers</h2>
+                        <p className="mb-4">Un octet, c'est un groupe de 8 bits qui permet de stocker :</p>
+                        <div className="bg-white p-4 rounded mb-4">
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li>Une lettre</li>
+                                <li>Un chiffre</li>
+                                <li>Un symbole</li>
+                                <li>Un caractère spécial</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {/* Zone Interactive */}
+                    <div className="section-card orange-section">
+                        <h2 className="text-xl font-bold mb-3">👆 Essaie de jouer avec les interrupteurs :</h2>
+                        <div className="flex justify-center gap-2 mb-4">
+                            {bits.map((bit, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => toggleBit(index)}
+                                    className={`bit-button ${bit === 1 ? 'bit-1' : 'bit-0'}`}
+                                >
+                                    {bit}
+                                </button>
+                            ))}
+                        </div>
+                        <p className="text-center text-gray-600 mb-4">
+                            Cette combinaison représente un caractère !
+                        </p>
+
+                        <div className="bg-white p-4 rounded">
+                            <h3 className="font-bold mb-2">Exemples de caractères :</h3>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                {commonCharacters.map((item, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setBitsFromCharacter(item.binary)}
+                                        className="character-example flex items-center gap-2"
+                                    >
+                                        <span className="text-2xl">{item.char}</span>
+                                        <span className="text-sm text-gray-600">{item.description}</span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Section Poids des Fichiers */}
+                    <div className="section-card bg-purple-50">
+                        <h2 className="text-xl font-bold mb-3">💾 Le poids des fichiers</h2>
+                        <div className="space-y-2">
+                            {fileExamples.map((file, index) => (
+                                <div key={index} className="file-example">
+                                    <div>
+                                        <p className="font-bold">{file.name}</p>
+                                        <p className="text-sm text-gray-600">{file.size}</p>
+                                        <p className="text-xs text-gray-500">{file.realLife}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Points à retenir */}
+                    <div className="section-card bg-yellow-50 mt-6">
+                        <h2 className="text-xl font-bold mb-3">🎯 À retenir :</h2>
+                        <ul className="list-disc pl-5 space-y-2">
+                            <li>Un bit est comme un interrupteur : allumé (1) ou éteint (0)</li>
+                            <li>Un octet = 8 bits = 1 caractère</li>
+                            <li>On mesure la taille des fichiers en octets (o), kilo-octets (Ko), méga-octets (Mo)</li>
+                            <li>Plus un fichier contient d'informations, plus il pèse d'octets</li>
+                            <li>Cette mesure nous permet de savoir combien d'espace le fichier prendra sur notre appareil</li>
+                        </ul>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<BinaryTeacher />, document.getElementById('root'));
+    </script>
+</body>
+</html>
